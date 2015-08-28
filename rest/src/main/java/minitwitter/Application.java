@@ -1,12 +1,10 @@
 // tag::runner[]
 package minitwitter;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -33,10 +31,15 @@ public class Application implements CommandLineRunner{
 @RequestMapping("/api")
 class MiniTwitterAPIController {
 
+    @Autowired
+    UserRepository userRepository;
+
     // GET requests
     @RequestMapping(value="/users/{userId}/profile", method = RequestMethod.GET)
-    String getUserProfile(@PathVariable String userId) {
-        return "User profile for User " + userId;
+    String getUserProfile(@PathVariable Long userId) {
+        TUser u = userRepository.findById(userId);
+        // TODO: add Null pointer check and return meaningful error message
+        return u.toString();
     }
 
     @RequestMapping(value="/users/{userId}/tweets", method = RequestMethod.GET)
