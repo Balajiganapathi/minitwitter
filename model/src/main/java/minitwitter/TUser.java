@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by deepap on 27/8/15.
  */
 @Entity
-public class User {
+public class TUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -14,18 +14,18 @@ public class User {
     private String email;
     private String password;
 
-    protected User() {}
+    protected TUser() {}
 
-    public User(String name, String email, String password) {
+    public TUser(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-        @Override
+    @Override
     public String toString() {
         return String.format(
-                "User[id=%d, name='%s', email= '%s']",
+                "TUser[id=%d, name='%s', email= '%s']",
                 id, name, email);
     }
 }
