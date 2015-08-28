@@ -7,6 +7,8 @@ import javax.persistence.*;
  */
 @Entity
 public class TUser {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -27,5 +29,17 @@ public class TUser {
         return String.format(
                 "TUser[id=%d, name='%s', email= '%s']",
                 id, name, email);
+    }
+
+        public String getEmail() {
+        return email;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 }

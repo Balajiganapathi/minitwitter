@@ -36,10 +36,10 @@ class MiniTwitterAPIController {
 
     // GET requests
     @RequestMapping(value="/users/{userId}/profile", method = RequestMethod.GET)
-    String getUserProfile(@PathVariable Long userId) {
+    TUser getUserProfile(@PathVariable Long userId) {
         TUser u = userRepository.findById(userId);
         // TODO: add Null pointer check and return meaningful error message
-        return u.toString();
+        return u;
     }
 
     @RequestMapping(value="/users/{userId}/tweets", method = RequestMethod.GET)
