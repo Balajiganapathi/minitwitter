@@ -22,11 +22,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="model" />
         <module name="rest" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="minitwitter" target="1.6" />
+      <module name="model" target="1.6" />
       <module name="rest" target="1.6" />
     </bytecodeTargetLevel>
   </component>

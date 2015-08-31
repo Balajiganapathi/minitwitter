@@ -1,5 +1,8 @@
 package minitwitter;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 /**
@@ -31,7 +34,7 @@ public class TUser {
                 id, name, email);
     }
 
-        public String getEmail() {
+    public String getEmail() {
         return email;
     }
 
@@ -41,5 +44,27 @@ public class TUser {
 
     public String getName() {
         return name;
+    }
+
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @JsonProperty
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -59,8 +59,8 @@ class MiniTwitterAPIController {
 
     // POST requests
     @RequestMapping(value="/users/register", method=RequestMethod.POST)
-    String register(@RequestBody String body) {
-        return "Registering user with data: " + body;
+    TUser register(@RequestBody TUser user) {
+        return userRepository.save(new TUser(user.getName(), user.getEmail(), user.getPassword()));
     }
 
     @RequestMapping(value="/users/login", method=RequestMethod.POST)
