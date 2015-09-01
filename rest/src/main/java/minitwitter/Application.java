@@ -4,6 +4,7 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,13 +17,13 @@ public class Application implements CommandLineRunner{
         SpringApplication.run(Application.class, args);
     }
     @Autowired
-    UserRepository userRepository;
+    UserDao userRepository;
 
     @Override
     public void run(String... strings) throws Exception {
-        userRepository.save(new TUser("Balaji", "balaji@balaji.com", "balaji"));
+        /*userRepository.save(new TUser("Balaji", "balaji@balaji.com", "balaji"));
         userRepository.save(new TUser("Deepa", "deepa@deepa.com", "deepa"));
-        userRepository.save(new TUser("xyz", "xyz@xyz.com", "xyz"));
+        userRepository.save(new TUser("xyz", "xyz@xyz.com", "xyz"));*/
     }
 }
 // end::runner[]
@@ -32,7 +33,7 @@ public class Application implements CommandLineRunner{
 class MiniTwitterAPIController {
 
     @Autowired
-    UserRepository userRepository;
+    UserDao userRepository;
 
     // GET requests
     @RequestMapping(value="/users/{userId}/profile", method = RequestMethod.GET)
