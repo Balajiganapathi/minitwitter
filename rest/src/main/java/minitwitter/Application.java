@@ -21,9 +21,9 @@ public class Application implements CommandLineRunner{
 
     @Override
     public void run(String... strings) throws Exception {
-        /*userRepository.save(new TUser("Balaji", "balaji@balaji.com", "balaji"));
-        userRepository.save(new TUser("Deepa", "deepa@deepa.com", "deepa"));
-        userRepository.save(new TUser("xyz", "xyz@xyz.com", "xyz"));*/
+//        userRepository.save(new TUser("Balaji", "balaji@balaji.com", "balaji"));
+//        userRepository.save(new TUser("Deepa", "deepa@deepa.com", "deepa"));
+//        userRepository.save(new TUser("xyz", "xyz@xyz.com", "xyz"));
     }
 }
 // end::runner[]
