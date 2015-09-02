@@ -1,4 +1,4 @@
-package minitwitter;
+package minitwitter.model;
 
 import org.springframework.data.repository.CrudRepository;
 
