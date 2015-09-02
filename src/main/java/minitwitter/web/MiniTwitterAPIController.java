@@ -1,9 +1,13 @@
 package minitwitter.web;
 
+import minitwitter.model.Session;
+import minitwitter.model.SessionRepo;
 import minitwitter.model.TUser;
 import minitwitter.model.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * Created by balajiganapathise on 2/9/15.
@@ -15,6 +19,12 @@ public class MiniTwitterAPIController {
     @Autowired
     UserDao userRepository;
 
+    @Autowired
+    SessionRepo sessionRepo;
+
+    private TUser getSessionUser(long sessionId) {
+        return sessionRepo.findBySessionId(sessionId).getUser();
+    }
     // GET requests
     @RequestMapping(value="/users/{userId}/profile", method = RequestMethod.GET)
     TUser getUserProfile(@PathVariable Long userId) {
@@ -41,17 +51,23 @@ public class MiniTwitterAPIController {
     // POST requests
     @RequestMapping(value="/users/register", method=RequestMethod.POST)
     TUser register(@RequestBody TUser user) {
-        return userRepository.save(new TUser(user.getName(), user.getEmail(), user.getPassword()));
+        return userRepository.save(user);
     }
 
     @RequestMapping(value="/users/login", method=RequestMethod.POST)
-    String login(@RequestBody String body) {
-        return "Logging in user with following data: " + body;
+    Session login(@RequestParam(required=true) Map<String, String> params) throws Exception {
+        String username = params.get("username");
+        String password = params.get("password");
+        TUser user = userRepository.findByName(username);
+
+        return sessionRepo.save(new Session(user));
     }
 
     @RequestMapping(value="/users/logout", method=RequestMethod.POST)
-    String logout(@RequestBody String body) {
-        return "Logging out user with data: " + body;
+    String logout(@RequestParam(required = true) long sessionId) throws Exception {
+        TUser user = getSessionUser(sessionId);
+        sessionRepo.delete(sessionId);
+        return user.getName() + " logged out succesfully";
     }
 
     @RequestMapping(value="/users/{userId}/tweets", method=RequestMethod.POST)
