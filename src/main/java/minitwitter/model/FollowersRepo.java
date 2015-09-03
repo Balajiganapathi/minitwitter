@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface FollowersRepo extends CrudRepository<Followers, Long>{
     List<Followers> findByFollower(TUser follower);
+    List<Followers> findByFollowee(TUser followee);
 }

@@ -27,7 +27,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="minitwitter" target="1.6" />
+      <module name="minitwitter" target="1.8" />
       <module name="model" target="1.6" />
       <module name="rest" target="1.6" />
     </bytecodeTargetLevel>

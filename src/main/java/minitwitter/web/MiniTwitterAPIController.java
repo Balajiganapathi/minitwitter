@@ -61,6 +61,26 @@ public class MiniTwitterAPIController {
         return "Feed for user " +  userId;
     }
 
+    @RequestMapping(value = "/users/{userID}/followers", method = RequestMethod.GET)
+    List<Followers> getUserFollowers(@PathVariable Long userId) {
+        return followersRepo.findByFollowee(userRepository.findById(userId));
+    }
+
+    @RequestMapping(value = "/users/{userId}/followee", method = RequestMethod.GET)
+    List<Followers> getUserFollowee(@PathVariable Long userId) {
+        return followersRepo.findByFollower(userRepository.findById(userId));
+    }
+
+    @RequestMapping(value = "/users/followers", method = RequestMethod.GET)
+    List<Followers> getCurrentFollowers(@RequestParam(required = true) long sessionId) throws Exception {
+        return followersRepo.findByFollowee(getSessionUser(sessionId));
+    }
+
+    @RequestMapping(value = "/users/followee", method = RequestMethod.GET)
+    List<Followers> getCurrentFollowee(@RequestParam(required = true) long sessionId) throws Exception {
+        return followersRepo.findByFollower(getSessionUser(sessionId));
+    }
+
     // POST requests
     @RequestMapping(value="/users/register", method=RequestMethod.POST)
     TUser register(@RequestBody TUser user) {
@@ -103,12 +123,11 @@ public class MiniTwitterAPIController {
 
     // DELETE
     @RequestMapping(value="/users/follow/{followeeId}", method=RequestMethod.DELETE)
-    String unfollow(@PathVariable Long followeeId, @RequestParam(required = true) long sessionId) throws Exception{
+    String unfollow(@PathVariable Long followeeId, @RequestParam(required = true) long sessionId) throws Exception {
         TUser follower = getSessionUser(sessionId);
         Followers followers = new Followers(follower, userRepository.findById(followeeId));
 
         followersRepo.delete(followers);
         return "unfollowed" + userRepository.findById(followeeId).getName();
     }
-
 }
