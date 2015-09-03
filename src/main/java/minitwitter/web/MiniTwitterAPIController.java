@@ -125,9 +125,11 @@ public class MiniTwitterAPIController {
     @RequestMapping(value="/users/follow/{followeeId}", method=RequestMethod.DELETE)
     String unfollow(@PathVariable Long followeeId, @RequestParam(required = true) long sessionId) throws Exception {
         TUser follower = getSessionUser(sessionId);
-        Followers followers = new Followers(follower, userRepository.findById(followeeId));
 
-        followersRepo.delete(followers);
+        List<Followers> tobeDead = followersRepo.findByFollowerAndFollowee(follower, userRepository.findById(followeeId));
+        for(Followers x : tobeDead) {
+            followersRepo.delete(x);
+        }
         return "unfollowed" + userRepository.findById(followeeId).getName();
     }
 }

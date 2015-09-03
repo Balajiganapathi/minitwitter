@@ -1,9 +1,6 @@
 package minitwitter.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -15,6 +12,7 @@ public class Tweet {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long tweetId;
 
+    @ManyToOne
     @NotNull
     private TUser user;
 

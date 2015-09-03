@@ -9,7 +9,6 @@ import javax.persistence.*;
  * Created by deepap on 27/8/15.
  */
 @Entity
-@Table(name = "TUsers")
 public class TUser {
 
 

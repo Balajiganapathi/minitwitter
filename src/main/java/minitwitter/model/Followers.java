@@ -1,15 +1,20 @@
 package minitwitter.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 
 /**
  * Created by deepap on 3/9/15.
  */
 @Entity
-@Table
 public class Followers {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @ManyToOne
     private TUser follower;
+    @ManyToOne
     private TUser followee;
 
     protected Followers() {}
@@ -27,4 +32,7 @@ public class Followers {
         return follower;
     }
 
+    public Long getId() {
+        return id;
+    }
 }
