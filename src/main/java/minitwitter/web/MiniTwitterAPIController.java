@@ -4,6 +4,7 @@ import minitwitter.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,9 +57,17 @@ public class MiniTwitterAPIController {
         return tweetRepo.findByTweetId(tweetId);
     }
 
-    @RequestMapping(value= "/users/{userId}/feed", method = RequestMethod.GET)
-    String getFeed(@PathVariable String userId) {
-        return "Feed for user " +  userId;
+    @RequestMapping(value= "/users/feed", method = RequestMethod.GET)
+    List<Tweet> getFeed(@RequestParam(required = true) long sessionId){
+        TUser user = getSessionUser(sessionId);
+        List<Followers> followees = followersRepo.findByFollower(user);
+        List<Tweet> feed = new ArrayList<Tweet>();
+        for(Followers f: followees) {
+            List<Tweet> tweets_f = tweetRepo.findByUser(f.getFollowee());
+            feed.addAll(tweets_f);
+        }
+
+        return feed;
     }
 
     @RequestMapping(value = "/users/{userId}/followers", method = RequestMethod.GET)
