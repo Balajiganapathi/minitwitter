@@ -103,9 +103,12 @@ public class MiniTwitterAPIController {
         return user.getName() + " logged out succesfully";
     }
 
-    @RequestMapping(value="/users/{userId}/tweets", method=RequestMethod.POST)
-    String addTweet(@PathVariable String userId, @RequestBody String body) {
-        return "Adding a tweet for user " + userId + " with data: " + body;
+    @RequestMapping(value="/users/tweets", method=RequestMethod.POST)
+    Tweet addTweet(@RequestParam(required = true) long sessionId, @RequestBody Map<String, String> body) {
+        TUser user = getSessionUser(sessionId);
+        Tweet tweet = new Tweet(user, body.getOrDefault("contents", ""));
+        tweetRepo.save(tweet);
+        return tweet;
     }
 
     @RequestMapping(value="/users/follow/{followeeId}", method=RequestMethod.POST)
@@ -116,9 +119,13 @@ public class MiniTwitterAPIController {
     }
 
     // PUT
-    @RequestMapping(value="/users/{userId}/tweets", method=RequestMethod.PUT)
-    String modifyProfile(@PathVariable String userId, @RequestBody String body) {
-        return "Modifying profile of user " + userId + " with data: " + body;
+    @RequestMapping(value="/users/profile", method=RequestMethod.PUT)
+    TUser modifyProfile(@RequestParam(required = true) long sessionId, @RequestBody Map<String, String> body) {
+        TUser user = getSessionUser(sessionId);
+        user.setEmail(body.getOrDefault("email", user.getEmail()));
+        user.setName(body.getOrDefault("name", user.getName()));
+        user.setPassword(body.getOrDefault("password", user.getPassword()));
+        return user;
     }
 
     // DELETE
