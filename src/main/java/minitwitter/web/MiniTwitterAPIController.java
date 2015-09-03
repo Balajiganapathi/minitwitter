@@ -1,12 +1,10 @@
 package minitwitter.web;
 
-import minitwitter.model.Session;
-import minitwitter.model.SessionRepo;
-import minitwitter.model.TUser;
-import minitwitter.model.UserDao;
+import minitwitter.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +19,9 @@ public class MiniTwitterAPIController {
 
     @Autowired
     SessionRepo sessionRepo;
+
+    @Autowired
+    TweetRepo tweetRepo;
 
     private TUser getSessionUser(long sessionId) {
         return sessionRepo.findBySessionId(sessionId).getUser();
@@ -38,13 +39,18 @@ public class MiniTwitterAPIController {
     }
 
     @RequestMapping(value="/users/{userId}/tweets", method = RequestMethod.GET)
-    String getUserTweets(@PathVariable String userId) {
-        return "Listing tweets for user " + userId;
+    List<Tweet> getUserTweets(@PathVariable Long userId) {
+        return tweetRepo.findByUser(userRepository.findById(userId));
+    }
+
+    @RequestMapping(value="/users/tweets", method = RequestMethod.GET)
+    List<Tweet> getCurrentUserTweet(@RequestParam(required = true) long sessionId){
+        return tweetRepo.findByUser(getSessionUser(sessionId));
     }
 
     @RequestMapping(value= "/tweets/{tweetId}", method = RequestMethod.GET)
-    String getTweet(@PathVariable String tweetId) {
-        return "tweet for tweetId " +  tweetId;
+    Tweet getTweet(@PathVariable Long tweetId) {
+        return tweetRepo.findByTweetId(tweetId);
     }
 
     @RequestMapping(value= "/users/{userId}/feed", method = RequestMethod.GET)
