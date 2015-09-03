@@ -23,6 +23,9 @@ public class MiniTwitterAPIController {
     @Autowired
     TweetRepo tweetRepo;
 
+    @Autowired
+    FollowersRepo followersRepo;
+
     private TUser getSessionUser(long sessionId) {
         return sessionRepo.findBySessionId(sessionId).getUser();
     }
@@ -85,9 +88,11 @@ public class MiniTwitterAPIController {
         return "Adding a tweet for user " + userId + " with data: " + body;
     }
 
-    @RequestMapping(value="/users/{userId}/follow/{followeeId}", method=RequestMethod.POST)
-    String follow(@PathVariable String userId, @PathVariable String followeeId) {
-        return "User " + userId + " following User " + followeeId;
+    @RequestMapping(value="/users/follow/{followeeId}", method=RequestMethod.POST)
+    Followers follow(@PathVariable Long followeeId, @RequestParam(required = true) long sessionId) throws Exception{
+        TUser follower = getSessionUser(sessionId);
+        Followers followers = new Followers(follower, userRepository.findById(followeeId));
+        return followersRepo.save(followers);
     }
 
     // PUT
@@ -97,9 +102,13 @@ public class MiniTwitterAPIController {
     }
 
     // DELETE
-    @RequestMapping(value="/users/{userId}/follow/{followeeId}", method=RequestMethod.DELETE)
-    String unfollow(@PathVariable String userId, @PathVariable String followeeId) {
-        return "User " + userId + " unfollowing User " + followeeId;
+    @RequestMapping(value="/users/follow/{followeeId}", method=RequestMethod.DELETE)
+    String unfollow(@PathVariable Long followeeId, @RequestParam(required = true) long sessionId) throws Exception{
+        TUser follower = getSessionUser(sessionId);
+        Followers followers = new Followers(follower, userRepository.findById(followeeId));
+
+        followersRepo.delete(followers);
+        return "unfollowed" + userRepository.findById(followeeId).getName();
     }
 
 }
