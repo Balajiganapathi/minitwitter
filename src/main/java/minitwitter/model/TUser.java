@@ -46,7 +46,7 @@ public class TUser {
         return name;
     }
 
-    //@JsonIgnore
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

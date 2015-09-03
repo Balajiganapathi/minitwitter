@@ -1,6 +1,8 @@
 package minitwitter.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -32,6 +34,7 @@ public class Followers {
         return follower;
     }
 
+    @JsonIgnore
     public Long getId() {
         return id;
     }

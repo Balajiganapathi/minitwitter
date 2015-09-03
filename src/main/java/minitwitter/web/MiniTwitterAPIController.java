@@ -2,6 +2,8 @@ package minitwitter.web;
 
 import minitwitter.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -32,33 +34,36 @@ public class MiniTwitterAPIController {
     }
     // GET requests
     @RequestMapping(value="/users/{userId}/profile", method = RequestMethod.GET)
-    TUser getUserProfile(@PathVariable Long userId) {
+    ResponseEntity<TUser> getUserProfile(@PathVariable Long userId) {
         TUser u = userRepository.findById(userId);
-        return u;
+        if(u == null) {
+            return new ResponseEntity<TUser>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<TUser>(u, HttpStatus.OK);
     }
 
     @RequestMapping(value="/users/profile", method = RequestMethod.GET)
-    TUser getCurrentUserProfile(@RequestParam(required = true) long sessionId){
-        return getSessionUser(sessionId);
+    ResponseEntity<TUser> getCurrentUserProfile(@RequestParam(required = true) long sessionId){
+        return new ResponseEntity<TUser>(getSessionUser(sessionId), HttpStatus.OK);
     }
 
     @RequestMapping(value="/users/{userId}/tweets", method = RequestMethod.GET)
-    List<Tweet> getUserTweets(@PathVariable Long userId) {
-        return tweetRepo.findByUser(userRepository.findById(userId));
+    ResponseEntity<List<Tweet>> getUserTweets(@PathVariable Long userId) {
+        return new ResponseEntity<List<Tweet>>(tweetRepo.findByUser(userRepository.findById(userId)), HttpStatus.OK);
     }
 
     @RequestMapping(value="/users/tweets", method = RequestMethod.GET)
-    List<Tweet> getCurrentUserTweet(@RequestParam(required = true) long sessionId){
-        return tweetRepo.findByUser(getSessionUser(sessionId));
+    ResponseEntity<List<Tweet>> getCurrentUserTweet(@RequestParam(required = true) long sessionId){
+        return new ResponseEntity<List<Tweet>>(tweetRepo.findByUser(getSessionUser(sessionId)), HttpStatus.OK);
     }
 
     @RequestMapping(value= "/tweets/{tweetId}", method = RequestMethod.GET)
-    Tweet getTweet(@PathVariable Long tweetId) {
-        return tweetRepo.findByTweetId(tweetId);
+    ResponseEntity<Tweet> getTweet(@PathVariable Long tweetId) {
+        return new ResponseEntity<Tweet>(tweetRepo.findByTweetId(tweetId), HttpStatus.OK);
     }
 
     @RequestMapping(value= "/users/feed", method = RequestMethod.GET)
-    List<Tweet> getFeed(@RequestParam(required = true) long sessionId){
+    ResponseEntity<List<Tweet>> getFeed(@RequestParam(required = true) long sessionId){
         TUser user = getSessionUser(sessionId);
         List<Followers> followees = followersRepo.findByFollower(user);
         List<Tweet> feed = new ArrayList<Tweet>();
@@ -67,85 +72,86 @@ public class MiniTwitterAPIController {
             feed.addAll(tweets_f);
         }
 
-        return feed;
+        return new ResponseEntity<List<Tweet>>(feed, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/users/{userId}/followers", method = RequestMethod.GET)
-    List<Followers> getUserFollowers(@PathVariable Long userId) {
-        return followersRepo.findByFollowee(userRepository.findById(userId));
+    ResponseEntity<List<Followers>> getUserFollowers(@PathVariable Long userId) {
+        return new ResponseEntity<List<Followers>>(followersRepo.findByFollowee(userRepository.findById(userId)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/users/{userId}/followee", method = RequestMethod.GET)
-    List<Followers> getUserFollowee(@PathVariable Long userId) {
-        return followersRepo.findByFollower(userRepository.findById(userId));
+    ResponseEntity<List<Followers>> getUserFollowee(@PathVariable Long userId) {
+        return new ResponseEntity<List<Followers>>(followersRepo.findByFollower(userRepository.findById(userId)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/users/followers", method = RequestMethod.GET)
-    List<Followers> getCurrentFollowers(@RequestParam(required = true) long sessionId) throws Exception {
-        return followersRepo.findByFollowee(getSessionUser(sessionId));
+    ResponseEntity<List<Followers>> getCurrentFollowers(@RequestParam(required = true) long sessionId) throws Exception {
+        return new ResponseEntity<List<Followers>>(followersRepo.findByFollowee(getSessionUser(sessionId)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/users/followee", method = RequestMethod.GET)
-    List<Followers> getCurrentFollowee(@RequestParam(required = true) long sessionId) throws Exception {
-        return followersRepo.findByFollower(getSessionUser(sessionId));
+    ResponseEntity<List<Followers>> getCurrentFollowee(@RequestParam(required = true) long sessionId) throws Exception {
+        return new ResponseEntity<List<Followers>>(followersRepo.findByFollower(getSessionUser(sessionId)), HttpStatus.OK);
     }
 
     // POST requests
     @RequestMapping(value="/users/register", method=RequestMethod.POST)
-    TUser register(@RequestBody TUser user) {
-        return userRepository.save(user);
+    ResponseEntity<TUser> register(@RequestBody TUser user) {
+        TUser newUser = userRepository.save(user);
+        return new ResponseEntity<TUser>(newUser, HttpStatus.OK);
     }
 
     @RequestMapping(value="/users/login", method=RequestMethod.POST)
-    Session login(@RequestParam(required=true) Map<String, String> params) throws Exception {
+    ResponseEntity<Session> login(@RequestParam(required=true) Map<String, String> params) throws Exception {
         String username = params.get("username");
         String password = params.get("password");
         TUser user = userRepository.findByName(username);
 
-        return sessionRepo.save(new Session(user));
+        return new ResponseEntity<Session>(sessionRepo.save(new Session(user)), HttpStatus.OK);
     }
 
     @RequestMapping(value="/users/logout", method=RequestMethod.POST)
-    String logout(@RequestParam(required = true) long sessionId) throws Exception {
+    ResponseEntity<String> logout(@RequestParam(required = true) long sessionId) throws Exception {
         TUser user = getSessionUser(sessionId);
         sessionRepo.delete(sessionId);
-        return user.getName() + " logged out succesfully";
+        return new ResponseEntity<String>(user.getName() + " logged out succesfully", HttpStatus.OK);
     }
 
     @RequestMapping(value="/users/tweets", method=RequestMethod.POST)
-    Tweet addTweet(@RequestParam(required = true) long sessionId, @RequestBody Map<String, String> body) {
+    ResponseEntity<Tweet> addTweet(@RequestParam(required = true) long sessionId, @RequestBody Map<String, String> body) {
         TUser user = getSessionUser(sessionId);
         Tweet tweet = new Tweet(user, body.getOrDefault("contents", ""));
         tweetRepo.save(tweet);
-        return tweet;
+        return new ResponseEntity<Tweet>(tweet, HttpStatus.OK);
     }
 
     @RequestMapping(value="/users/follow/{followeeId}", method=RequestMethod.POST)
-    Followers follow(@PathVariable Long followeeId, @RequestParam(required = true) long sessionId) throws Exception{
+    ResponseEntity<Followers> follow(@PathVariable Long followeeId, @RequestParam(required = true) long sessionId) throws Exception{
         TUser follower = getSessionUser(sessionId);
         Followers followers = new Followers(follower, userRepository.findById(followeeId));
-        return followersRepo.save(followers);
+        return new ResponseEntity<Followers>(followersRepo.save(followers), HttpStatus.OK);
     }
 
     // PUT
     @RequestMapping(value="/users/profile", method=RequestMethod.PUT)
-    TUser modifyProfile(@RequestParam(required = true) long sessionId, @RequestBody Map<String, String> body) {
+    ResponseEntity<TUser> modifyProfile(@RequestParam(required = true) long sessionId, @RequestBody Map<String, String> body) {
         TUser user = getSessionUser(sessionId);
         user.setEmail(body.getOrDefault("email", user.getEmail()));
         user.setName(body.getOrDefault("name", user.getName()));
         user.setPassword(body.getOrDefault("password", user.getPassword()));
-        return user;
+        return new ResponseEntity<TUser>(user, HttpStatus.OK);
     }
 
     // DELETE
     @RequestMapping(value="/users/follow/{followeeId}", method=RequestMethod.DELETE)
-    String unfollow(@PathVariable Long followeeId, @RequestParam(required = true) long sessionId) throws Exception {
+    ResponseEntity<String> unfollow(@PathVariable Long followeeId, @RequestParam(required = true) long sessionId) throws Exception {
         TUser follower = getSessionUser(sessionId);
 
         List<Followers> tobeDead = followersRepo.findByFollowerAndFollowee(follower, userRepository.findById(followeeId));
         for(Followers x : tobeDead) {
             followersRepo.delete(x);
         }
-        return "unfollowed" + userRepository.findById(followeeId).getName();
+        return new ResponseEntity<String>("Unfollowed " + userRepository.findById(followeeId).getName(), HttpStatus.OK);
     }
 }
