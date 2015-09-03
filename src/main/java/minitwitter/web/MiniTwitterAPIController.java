@@ -61,7 +61,7 @@ public class MiniTwitterAPIController {
         return "Feed for user " +  userId;
     }
 
-    @RequestMapping(value = "/users/{userID}/followers", method = RequestMethod.GET)
+    @RequestMapping(value = "/users/{userId}/followers", method = RequestMethod.GET)
     List<Followers> getUserFollowers(@PathVariable Long userId) {
         return followersRepo.findByFollowee(userRepository.findById(userId));
     }
