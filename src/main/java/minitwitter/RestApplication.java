@@ -5,15 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by balajiganapathise on 27/8/15.
  */
 @SpringBootApplication
-public class Application implements CommandLineRunner{
+public class RestApplication implements CommandLineRunner{
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(RestApplication.class, args);
     }
     @Autowired
     UserDao userRepository;

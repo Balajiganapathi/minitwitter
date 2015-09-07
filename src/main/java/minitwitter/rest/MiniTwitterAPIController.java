@@ -1,4 +1,4 @@
-package minitwitter.web;
+package minitwitter.rest;
 
 import minitwitter.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
