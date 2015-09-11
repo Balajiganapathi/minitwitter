@@ -21,27 +21,15 @@ public class RestApplication extends WebMvcConfigurerAdapter {
     @Autowired
     UserDao userRepository;
 
-////    @Override
-////    public void run(String... strings) throws Exception {
-//////        userRepository.save(new TUser("Balaji", "balaji@balaji.com", "balaji"));
-//////        userRepository.save(new TUser("Deepa", "deepa@deepa.com", "deepa"));
-//////        userRepository.save(new TUser("xyz", "xyz@xyz.com", "xyz"));
-////    }
-//    @Bean(name = "viewResolver")
-//    public InternalResourceViewResolver getViewResolver() {
-//        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-//        viewResolver.setPrefix("/resources/templates/");
-//        viewResolver.setSuffix(".html");
-//        return viewResolver;
-//    }
-//
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-////        registry.addResourceHandler("resources/**")
-////                .addResourceLocations("/resources/");
-////        registry.addResourceHandler("/static/**")
-////                .addResourceLocations("/static/**");
-//    }
+/*
+    @Override
+    public void run(String... strings) throws Exception {
+//        userRepository.save(new TUser("Balaji", "balaji@balaji.com", "balaji"));
+//        userRepository.save(new TUser("Deepa", "deepa@deepa.com", "deepa"));
+//        userRepository.save(new TUser("xyz", "xyz@xyz.com", "xyz"));
+    }
+*/
+
 }
 // end::runner[]
 
