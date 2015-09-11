@@ -1,3 +1,25 @@
 $(document).ready(function(){
-    alert("i am ready");
+    var login = function() {
+        var query = {
+            url: "http://localhost:8080/api/users/login?username=" + $('#username').val() + "&" + "password=" + $('#password').val(),
+            type: "POST",
+            data: "",
+            dataType: "text",
+            cache: false,
+            success: function(json) {
+                alert("logged in successfully");
+                console.log(json);
+            },
+            error: function(xhr, status, errorThrown){
+                console.log("error");
+            },
+            complete: function( xhr, status ) {
+                console.log( "The request is complete!" );
+            }
+        };
+        console.log(query);
+        $.ajax(query);
+        console.log("Request sent!");
+    };
+    $('#login').on('click', login);
 });

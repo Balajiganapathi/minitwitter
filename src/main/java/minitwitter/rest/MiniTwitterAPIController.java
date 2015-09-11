@@ -102,6 +102,7 @@ public class MiniTwitterAPIController {
         return new ResponseEntity<TUser>(newUser, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @RequestMapping(value="/users/login", method=RequestMethod.POST)
     ResponseEntity<Session> login(@RequestParam(required=true) Map<String, String> params) throws Exception {
         String username = params.get("username");
