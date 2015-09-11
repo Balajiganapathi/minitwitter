@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var login = function() {
+    var login = function(event) {
         var query = {
             url: "http://localhost:8080/api/users/login?username=" + $('#username').val() + "&" + "password=" + $('#password').val(),
             type: "POST",
@@ -20,6 +20,8 @@ $(document).ready(function(){
         console.log(query);
         $.ajax(query);
         console.log("Request sent!");
+        event.preventDefault();
     };
     $('#login').on('click', login);
+    console.log("Ready!");
 });
