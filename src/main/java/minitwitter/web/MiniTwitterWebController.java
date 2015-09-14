@@ -34,4 +34,8 @@ public class MiniTwitterWebController {
     public String addTweet() {
         return "addTweet";
     }
+    @RequestMapping("register")
+    public String register() {
+        return "register";
+    }
 }
