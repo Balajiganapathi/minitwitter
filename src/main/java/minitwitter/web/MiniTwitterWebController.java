@@ -15,6 +15,11 @@ public class MiniTwitterWebController {
         return "login";
     }
 
+    @RequestMapping("/profile/{userId}")
+    public String profile() {
+        return "profile";
+    }
+
     @RequestMapping("/logout")
     public String logout() {
         return "logout";
