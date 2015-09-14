@@ -20,6 +20,10 @@ public class MiniTwitterWebController {
         return "logout";
     }
 
+    @RequestMapping("/tweets/{tweetId}")
+    public String tweet() {
+        return "tweet";
+    }
     @RequestMapping("/tweet")
     public String addTweet() {
         return "addTweet";
