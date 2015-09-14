@@ -19,4 +19,9 @@ public class MiniTwitterWebController {
     public String logout() {
         return "logout";
     }
+
+    @RequestMapping("/tweet")
+    public String addTweet() {
+        return "addTweet";
+    }
 }

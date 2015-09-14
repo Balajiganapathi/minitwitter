@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" href="bootstrap-3.3.5-dist/css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container">
+    <form>
+        <h2>Tweet</h2>
+        <div class = "error">
+            <h3 id="error"></h3>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="contents" placeholder="contents"/>
+        </div>
+        <button id = "tweet" type="submit" class="btn btn-lg btn-primary btn-block">tweet</button>
+    </form>
+</div>
+
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/js.cookie.js"></script>
+
+<script src="js/check.js"></script>
+<script src="js/addTweet.js"></script>
+</body>
+</html>
