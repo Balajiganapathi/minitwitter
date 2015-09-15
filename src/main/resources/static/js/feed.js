@@ -21,7 +21,7 @@ $(document).ready(function(){
                 tweetElement.children("#author").removeAttr('id');
                 tweetElement.children("#contents").removeAttr('id');
 
-                $("#tweetContainer").append(tweetElement);
+                $("#tweetContainer").prepend(tweetElement);
             }
             console.log("Feed retrieved successfully");
         },
