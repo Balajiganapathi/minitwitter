@@ -1,0 +1,15 @@
+#topbar {
+    margin: 10px 10px 10px 10px;
+}
+#topbar h3 {
+    display: inline-block;
+}
+
+.tweetLink {
+    display: inline-block;
+    text-align: center;
+}
+
+#logoutLink {
+    float: right;
+}

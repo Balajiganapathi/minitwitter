@@ -13,6 +13,7 @@ $(document).ready(function(){
             success: function(data) {
                 console.log(data);
                 console.log("Tweeted successfully");
+                window.location = "tweets/" + data.tweetId;
             },
             error: function(xhr, status, errorThrown){
                 console.log("error");

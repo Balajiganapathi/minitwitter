@@ -4,14 +4,22 @@
     <meta charset="UTF-8"/>
     <title></title>
     <link rel="stylesheet" href="/bootstrap-3.3.5-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/common.css"/>
 </head>
 <body>
+<div id="topbar">
+    <h3>minitwitter</h3>
+    <div class="tweetLink" >
+    <a href="tweet" class="btn-primary" id="tweetLink">tweet</a>
+    </div>
+    <a href="logout" id="logoutLink">logout</a>
+</div>
 <div id="tweetContainer" class="container">
     <h3 class="error" id="error"></h3>
     <div id="tweet" class="tweet">
         <h2 id="author"></h2>
         <h3 id="contents"></h3>
-        <br/>
+        <hr/>
     </div>
 </div>
 

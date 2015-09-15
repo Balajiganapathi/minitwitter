@@ -13,6 +13,7 @@ $(document).ready(function(){
                 console.log(data["sessionId"]);
                 Cookies.set("sessionId", data["sessionId"]);
                 console.log("logged in successfully");
+                window.location = "/";
             },
             error: function(xhr, status, errorThrown){
                 console.log("error");

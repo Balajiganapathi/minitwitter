@@ -40,7 +40,7 @@ public class MiniTwitterWebController {
         return "register";
     }
 
-    @RequestMapping("feed")
+    @RequestMapping("")
     public String feed() {
         return "feed";
     }
